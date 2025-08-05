@@ -8,7 +8,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.cluster import DBSCAN,KMeans
 from sklearn.mixture import GaussianMixture
 from kmodes.kprototypes import KPrototypes
-from lamma_summary import give_summary
+# from lamma_summary import give_summary
 from cluster_summury import summarize_clusters
 
 st.set_page_config(page_title="Clustering Assistance AI",page_icon="☀️",layout="wide")
@@ -61,52 +61,53 @@ if st.session_state.page == "upload":
 
         with col1:
             if st.button(":blue[📄 Generate Llama3 Summary]"):
-                num_cols = df.select_dtypes(include=["int", "float"]).columns.tolist()
-                cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
-                nulls_summary = df.isnull().sum().to_dict()
-                duplicates_count = int(df.duplicated().sum())
-                short_num_cols = num_cols[:5] + (["..."] if len(num_cols) > 5 else [])
-                short_cat_cols = cat_cols[:5] + (["..."] if len(cat_cols) > 5 else [])
-                short_nulls = dict(list(nulls_summary.items())[:5])
+                pass
+                # num_cols = df.select_dtypes(include=["int", "float"]).columns.tolist()
+                # cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
+                # nulls_summary = df.isnull().sum().to_dict()
+                # duplicates_count = int(df.duplicated().sum())
+                # short_num_cols = num_cols[:5] + (["..."] if len(num_cols) > 5 else [])
+                # short_cat_cols = cat_cols[:5] + (["..."] if len(cat_cols) > 5 else [])
+                # short_nulls = dict(list(nulls_summary.items())[:5])
 
-                summary_text = give_summary(num_cols,cat_cols,nulls_summary,duplicates_count,short_cat_cols,short_num_cols,short_nulls)
+                # summary_text = give_summary(num_cols,cat_cols,nulls_summary,duplicates_count,short_cat_cols,short_num_cols,short_nulls)
 
-                st.markdown("### 📝 Llama3 Summary")
+                # st.markdown("### 📝 Llama3 Summary")
 
-                st.text_area("Summary Preview", summary_text, height=250)
+                # st.text_area("Summary Preview", summary_text, height=250)
 
-                pdf = FPDF()
-                pdf.add_page()
-                pdf.set_font("Arial", size=12)
+                # pdf = FPDF()
+                # pdf.add_page()
+                # pdf.set_font("Arial", size=12)
 
-                def safe_print_to_pdf(text):
-                        lines = text.split("\n")
-                        for line in lines:
-                            words = line.split(" ")
-                            current_line = ""
-                            for word in words:
-                                if len(word) > 80:
-                                    word = word[:75] + "..."
-                                if len(current_line + " " + word) <= 90:
-                                    current_line += " " + word
-                                else:
-                                    pdf.cell(0, 10, current_line.strip(), ln=True)
-                                    current_line = word
-                            if current_line.strip():
-                                pdf.cell(0, 10, current_line.strip(), ln=True)
+                # def safe_print_to_pdf(text):
+                #         lines = text.split("\n")
+                #         for line in lines:
+                #             words = line.split(" ")
+                #             current_line = ""
+                #             for word in words:
+                #                 if len(word) > 80:
+                #                     word = word[:75] + "..."
+                #                 if len(current_line + " " + word) <= 90:
+                #                     current_line += " " + word
+                #                 else:
+                #                     pdf.cell(0, 10, current_line.strip(), ln=True)
+                #                     current_line = word
+                #             if current_line.strip():
+                #                 pdf.cell(0, 10, current_line.strip(), ln=True)
 
-                safe_print_to_pdf(summary_text)
+                # safe_print_to_pdf(summary_text)
 
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-                        pdf.output(tmp.name)
-                        with open(tmp.name, "rb") as f:
-                            base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+                # with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                #         pdf.output(tmp.name)
+                #         with open(tmp.name, "rb") as f:
+                #             base64_pdf = base64.b64encode(f.read()).decode("utf-8")
                 
-                st.markdown("### 📄 Download PDF Summary")
-                st.markdown(
-                        f'<a href="data:application/pdf;base64,{base64_pdf}" download="dataset_summary.pdf">📥 Download PDF</a>',
-                        unsafe_allow_html=True
-                )
+                # st.markdown("### 📄 Download PDF Summary")
+                # st.markdown(
+                #         f'<a href="data:application/pdf;base64,{base64_pdf}" download="dataset_summary.pdf">📥 Download PDF</a>',
+                #         unsafe_allow_html=True
+                # )
         with col2:
             if st.button("🔢📊:blue[Go For Clustering]"):
                 st.session_state.page = "advanced"
